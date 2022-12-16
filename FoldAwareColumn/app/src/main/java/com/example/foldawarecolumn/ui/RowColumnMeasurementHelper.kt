@@ -16,10 +16,13 @@
 
 package com.example.foldawarecolumn.ui
 
+import androidx.compose.ui.ExperimentalComposeUiApi
+import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.layout.AlignmentLine
 import androidx.compose.ui.layout.Measurable
 import androidx.compose.ui.layout.MeasureScope
 import androidx.compose.ui.layout.Placeable
+import androidx.compose.ui.layout.boundsInWindow
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
@@ -324,5 +327,59 @@ internal class RowColumnMeasurementHelper(
             }
         }
     }
-}
 
+    @OptIn(ExperimentalComposeUiApi::class)
+    fun foldAwarePlaceHelper(
+        placeableScope: Placeable.PlacementScope,
+        measureResult: RowColumnMeasureHelperResult,
+        crossAxisOffset: Int,
+        layoutDirection: LayoutDirection,
+        foldIsSeparating: Boolean?,
+        foldBoundsPx: Rect?
+    ) {
+        with(placeableScope) {
+            val layoutBounds = coordinates!!.boundsInWindow()
+
+            var placeableY = 0
+
+            for (i in measureResult.startIndex until measureResult.endIndex) {
+                val placeable = placeables[i]
+                placeable!!
+                val mainAxisPositions = measureResult.mainAxisPositions
+                val crossAxisPosition = getCrossAxisPosition(
+                    placeable,
+                    (measurables[i].parentData as? RowColumnParentData),
+                    measureResult.crossAxisSize,
+                    layoutDirection,
+                    measureResult.beforeCrossAxisAlignmentLine
+                ) + crossAxisOffset
+                if (orientation == LayoutOrientation.Horizontal) {
+                    placeable.place(
+                        mainAxisPositions[i - measureResult.startIndex],
+                        crossAxisPosition
+                    )
+                } else {
+                    val relativeBounds = Rect(
+                        left = 0f,
+                        top = placeableY.toFloat(),
+                        right = placeable.width.toFloat(),
+                        bottom = (placeableY + placeable.height).toFloat()
+                    )
+                    val absoluteBounds = relativeBounds.translate(layoutBounds.left, layoutBounds.top)
+
+                    // If fold is separating and placeable overlaps fold, push placeable below fold
+                    if (foldIsSeparating == true && foldBoundsPx?.let { absoluteBounds.overlaps(it) } == true) {
+                        placeableY = (foldBoundsPx.bottom - layoutBounds.top).toInt()
+                    }
+
+                    placeable.place(
+                        crossAxisPosition,
+                        placeableY
+                    )
+
+                    placeableY += placeable.height
+                }
+            }
+        }
+    }
+}
