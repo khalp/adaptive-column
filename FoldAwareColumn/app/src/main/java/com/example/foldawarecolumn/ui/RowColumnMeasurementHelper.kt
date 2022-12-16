@@ -368,7 +368,8 @@ internal class RowColumnMeasurementHelper(
                     val absoluteBounds = relativeBounds.translate(layoutBounds.left, layoutBounds.top)
 
                     // If fold is separating and placeable overlaps fold, push placeable below fold
-                    if (foldIsSeparating == true && foldBoundsPx?.let { absoluteBounds.overlaps(it) } == true) {
+                    if (foldIsSeparating == true && foldBoundsPx?.let { absoluteBounds.overlaps(it) } == true
+                        && (placeable.parentData as? RowColumnParentData)?.ignoreFold != true) {
                         placeableY = (foldBoundsPx.bottom - layoutBounds.top).toInt()
                     }
 

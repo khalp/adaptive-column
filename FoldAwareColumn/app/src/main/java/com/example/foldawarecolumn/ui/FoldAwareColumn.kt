@@ -20,7 +20,7 @@ fun FoldAwareColumn(
     foldPadding: PaddingValues = PaddingValues(),
     verticalArrangement: Arrangement.Vertical = Arrangement.Top,
     horizontalAlignment: Alignment.Horizontal = Alignment.Start,
-    content: @Composable () -> Unit,
+    content: @Composable FoldAwareColumnScope.() -> Unit,
 ) {
     // Extract folding feature if horizontal
     val fold = displayFeatures.find {
@@ -53,6 +53,6 @@ fun FoldAwareColumn(
             foldBoundsPx = foldBoundsPx,
             foldIsSeparating = foldIsSeparating
         ),
-        content = { content() }
+        content = { FoldAwareColumnScopeInstance.content() }
     )
 }

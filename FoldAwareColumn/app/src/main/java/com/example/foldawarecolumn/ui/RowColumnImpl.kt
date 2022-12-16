@@ -16,8 +16,6 @@
 
 package com.example.foldawarecolumn.ui
 
-import com.example.foldawarecolumn.ui.LayoutOrientation.Horizontal
-import com.example.foldawarecolumn.ui.LayoutOrientation.Vertical
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.Alignment
@@ -38,6 +36,8 @@ import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.util.fastForEach
+import com.example.foldawarecolumn.ui.LayoutOrientation.Horizontal
+import com.example.foldawarecolumn.ui.LayoutOrientation.Vertical
 import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.roundToInt
@@ -599,6 +599,28 @@ private fun intrinsicCrossAxisSize(
     return crossAxisMax
 }
 
+internal class IgnoreFoldModifier(
+    inspectorInfo: InspectorInfo.() -> Unit
+) : ParentDataModifier, InspectorValueInfo(inspectorInfo) {
+    override fun Density.modifyParentData(parentData: Any?) =
+        ((parentData as? RowColumnParentData) ?: RowColumnParentData()).also {
+            it.ignoreFold = true
+        }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is IgnoreFoldModifier) return false
+        return true
+    }
+
+    override fun hashCode(): Int {
+        return hashCode()
+    }
+
+    override fun toString(): String =
+        "IgnoreFoldModifier(ignoreFold=true)"
+}
+
 internal class LayoutWeightImpl(
     val weight: Float,
     val fill: Boolean,
@@ -727,7 +749,8 @@ internal class VerticalAlignModifier(
 internal data class RowColumnParentData(
     var weight: Float = 0f,
     var fill: Boolean = true,
-    var crossAxisAlignment: CrossAxisAlignment? = null
+    var crossAxisAlignment: CrossAxisAlignment? = null,
+    var ignoreFold: Boolean = false
 )
 
 /**
