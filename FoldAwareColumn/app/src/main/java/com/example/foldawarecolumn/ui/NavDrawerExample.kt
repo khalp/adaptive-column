@@ -1,6 +1,7 @@
 package com.example.foldawarecolumn.ui
 
 import android.app.Activity
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Icon
@@ -53,7 +54,10 @@ fun NavDrawerExample(
     ModalNavigationDrawer(
         drawerContent = {
             ModalDrawerSheet {
-                FoldAwareColumn(displayFeatures = calculateDisplayFeatures(activity)) {
+                FoldAwareColumn(
+                    displayFeatures = calculateDisplayFeatures(activity),
+                    foldPadding = PaddingValues(vertical = 10.dp)
+                ) {
                     icons.forEach {
                         NavigationDrawerItem(
                             modifier = Modifier

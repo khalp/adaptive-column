@@ -16,6 +16,10 @@ import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.LayoutDirection
 
+/**
+ * FoldAwareColumn version of [rowColumnMeasurePolicy] that uses [RowColumnMeasurementHelper.foldAwarePlaceHelper]
+ * method instead of [RowColumnMeasurementHelper.placeHelper]
+ */
 @Composable
 internal fun foldAwareColumnMeasurePolicy(
     verticalArrangement: Arrangement.Vertical,

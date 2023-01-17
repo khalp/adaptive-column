@@ -18,6 +18,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
@@ -53,21 +54,28 @@ fun DraggableExample(
                 }
                 .width(400.dp)
                 .outline(color = Color.White),
-            displayFeatures = calculateDisplayFeatures(activity)
+            displayFeatures = calculateDisplayFeatures(activity),
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Icon(
                 modifier = Modifier
                     .outline(color = MaterialTheme.colors.secondaryVariant)
-                    .padding(20.dp),
+                    .padding(20.dp)
+                    .align(Alignment.Start),
                 imageVector = Icons.Default.FavoriteBorder,
                 contentDescription = null
             )
             Text(
-                modifier = Modifier.outline(color = MaterialTheme.colors.secondaryVariant),
+                modifier = Modifier
+                    .outline(color = MaterialTheme.colors.secondaryVariant)
+                    .align(Alignment.CenterHorizontally),
                 text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
             )
             Image(
-                modifier = Modifier.outline(color = MaterialTheme.colors.secondaryVariant),
+                modifier = Modifier
+                    .outline(color = MaterialTheme.colors.secondaryVariant)
+                    .ignoreFold()
+                    .align(Alignment.End),
                 painter = painterResource(id = R.drawable.empty_state_illustration),
                 contentDescription = null
             )

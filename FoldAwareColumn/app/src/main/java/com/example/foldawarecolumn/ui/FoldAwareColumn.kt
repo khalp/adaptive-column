@@ -14,14 +14,14 @@ import androidx.window.layout.DisplayFeature
 import androidx.window.layout.FoldingFeature
 
 /**
- * A simplified version of [Column](Column) that places children in a fold-aware manner.
+ * A simplified version of [Column] that places children in a fold-aware manner.
  *
  * @param displayFeatures the list of known display features to automatically avoid
  * @param modifier an optional modifier for the layout
  * @param foldPadding the optional padding to add around a fold
  * @param horizontalAlignment the horizontal alignment of the layout's children.
  *
- * @see [Column](Column)
+ * @see [Column]
  */
 @Composable
 fun FoldAwareColumn(

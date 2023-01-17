@@ -328,6 +328,9 @@ internal class RowColumnMeasurementHelper(
         }
     }
 
+    /**
+     * Copy of [placeHelper] that has been modified for FoldAwareColumn implementation
+     */
     @OptIn(ExperimentalComposeUiApi::class)
     fun foldAwarePlaceHelper(
         placeableScope: Placeable.PlacementScope,

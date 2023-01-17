@@ -1,6 +1,7 @@
 package com.example.foldawarecolumn.ui
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.LayoutScopeMarker
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
@@ -10,6 +11,11 @@ import androidx.compose.ui.layout.Measured
 import androidx.compose.ui.layout.VerticalAlignmentLine
 import androidx.compose.ui.platform.debugInspectorInfo
 
+/**
+ * Copy of [ColumnScope] that doesn't include the weight Modifier attribute.
+ *
+ * Also adds a new [ignoreFold] Modifier attribute.
+ */
 @LayoutScopeMarker
 @Immutable
 interface FoldAwareColumnScope {
