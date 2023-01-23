@@ -15,6 +15,7 @@ import androidx.compose.ui.layout.Placeable
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.LayoutDirection
+import kotlin.math.roundToInt
 
 /**
  * FoldAwareColumn version of [rowColumnMeasurePolicy] that uses [RowColumnMeasurementHelper.foldAwarePlaceHelper]
@@ -70,7 +71,19 @@ internal fun foldAwareColumnMeasurePolicy(
                 layoutHeight = measureResult.mainAxisSize
             }
 
-            return layout(layoutWidth, layoutHeight) {
+            // We only know how much padding is added inside the placement scope, so just add fold height
+            // and height of the largest child when laying out to cover the maximum possible height
+            val heightPadding = foldBoundsPx?.let { bounds ->
+                val largestChildHeight = rowColumnMeasureHelper.placeables.maxOfOrNull {
+                    if ((it?.parentData as? RowColumnParentData)?.ignoreFold == false)
+                        it.height
+                    else
+                        0
+                } ?: 0
+                bounds.height.roundToInt() + largestChildHeight
+            } ?: 0
+
+            return layout(layoutWidth, layoutHeight + heightPadding) {
                 rowColumnMeasureHelper.foldAwarePlaceHelper(
                     this,
                     measureResult,
